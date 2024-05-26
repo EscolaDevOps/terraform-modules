@@ -115,7 +115,7 @@ Este módulo cria instâncias de Virtual Machine (VM) no Google Cloud Platform (
 
 ```hcl
 module "gcp_instance" {
-  source = "caminho/para/o/modulo"
+  source = "github.com/EscolaDevOps/terraform-modules//gcp/instancia-vm"
 
   projeto              = "meu-projeto"
   regiao               = "us-central1"

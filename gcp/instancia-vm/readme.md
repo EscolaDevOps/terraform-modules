@@ -1,6 +1,7 @@
 # Módulo de Instâncias GCP
 
-Este módulo cria instâncias de Virtual Machine (VM) no Google Cloud Platform (GCP) utilizando Terraform e fornece várias saídas úteis.
+- Este módulo cria instâncias de Virtual Machine (VM) no Google Cloud Platform (GCP) utilizando Terraform e fornece várias saídas úteis.
+- É possível adicionar discos adicionais, script de inicialização (sysprep) e script de boot.
 
 ## Variáveis de entrada
 

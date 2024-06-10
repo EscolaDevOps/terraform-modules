@@ -1,7 +1,7 @@
 # Módulo de Instâncias GCP
 
 - Este módulo cria instâncias de Virtual Machine (VM) no Google Cloud Platform (GCP) utilizando Terraform e fornece várias saídas úteis.
-- É possível adicionar discos adicionais, script de inicialização (sysprep) e script de boot.
+- É possível adicionar discos adicionais, script de inicialização (sysprep) em sistemas Windows e script de boot.
 
 ## Variáveis de entrada
 
@@ -12,12 +12,12 @@
 
 ### `regiao`
 - **Tipo**: `string`
-- **Descrição**: Região onde a instância será aplicada.
+- **Descrição**: Região onde vai ser aplicado.
 - **Validação**: Não pode ser vazia.
 
 ### `zona`
 - **Tipo**: `string`
-- **Descrição**: Zona onde a instância será aplicada.
+- **Descrição**: Zona onde vai ser aplicado.
 - **Validação**: Não pode ser vazia.
 
 ### `nome_vm`
@@ -30,64 +30,76 @@
 - **Descrição**: Tipo de instância a ser aplicada.
 - **Validação**: Não pode ser vazia.
 
-### `imagem`
+### `sistema_operacional`
 - **Tipo**: `string`
-- **Descrição**: Nome da imagem do sistema operacional.
-- **Validação**: Não pode ser vazia.
+- **Descrição**: Nome ou família do sistema operacional a ser utilizado. Será utilizada a última imagem disponível do sistema operacional. Se informar a variável `sistema_operacional_imagem`, essa configuração será ignorada.
+- **Padrão**: `""`
+- **Validação**: Deve ser um dos valores: `centos-7`, `centos-stream-9`, `debian-10`, `debian-11`, `debian-12`, `rhel-7`, `rhel-8`, `rhel-9`, `rocky-linux-8`, `rocky-linux-9`, `sles-12`, `sles-15`, `ubuntu-2004-lts`, `ubuntu-2204-lts`, `ubuntu-2404-lts-amd64`, `ubuntu-minimal-2004-lts`, `ubuntu-minimal-2204-lts`, `ubuntu-minimal-2404-lts-amd64`, `ubuntu-pro-1604-lts`, `ubuntu-pro-1804-lts`, `ubuntu-pro-2004-lts`, `ubuntu-pro-2204-lts`, `ubuntu-pro-2404-lts-amd64`, `windows-2016-core`, `windows-2016`, `windows-2019-core`, `windows-2019`, `windows-2022-core`, `windows-2022`
+
+### `sistema_operacional_projeto`
+- **Tipo**: `string`
+- **Descrição**: Nome do projeto GCP do sistema operacional. Opcional se for informada uma imagem ou for da família `windows`, `ubuntu`, `centos`, `rhel`, `debian`, `rocky`, `suse` ou `sles`.
+- **Padrão**: `""`
+
+### `sistema_operacional_imagem`
+- **Tipo**: `string`
+- **Descrição**: Nome da imagem do sistema operacional. Deve ser usada quando não é informada uma família de sistema operacional.
+- **Padrão**: `""`
 
 ### `tamanho_disco_boot`
 - **Tipo**: `number`
 - **Descrição**: Tamanho em GB do disco de boot.
-- **Opcional**
 - **Padrão**: `100`
 
 ### `tipo_disco_boot`
 - **Tipo**: `string`
 - **Descrição**: Tipo do disco de boot.
-- **Opcional**
 - **Padrão**: `pd-standard`
 
 ### `script_boot`
 - **Tipo**: `string`
 - **Descrição**: Caminho do script a ser executado a cada boot da instância/VM. Bash para Linux ou PowerShell para Windows.
-- **Opcional**
-- **Padrão**: Em branco
+- **Padrão**: `""`
 
 ### `script_sysprep`
 - **Tipo**: `string`
 - **Descrição**: Caminho do script a ser executado na criação da instância/VM. Não disponível para Linux. Apenas PowerShell para Windows.
-- **Opcional**
-- **Padrão**: Em branco
+- **Padrão**: `""`
 
 ### `rede`
 - **Tipo**: `string`
 - **Descrição**: Nome da rede da instância.
-- **Opcional**
 - **Padrão**: `default`
 
 ### `subrede`
 - **Tipo**: `string`
 - **Descrição**: Nome da subrede da instância.
-- **Opcional**
 - **Padrão**: `default`
+
+### `ip_privado_fixo`
+- **Tipo**: `string`
+- **Descrição**: Define um IP privado fixo para a instância.
+- **Padrão**: `""`
 
 ### `ip_publico`
 - **Tipo**: `bool`
 - **Descrição**: Indica se a instância terá um IP público.
-- **Opcional**
 - **Padrão**: `false`
+
+### `ip_publico_fixo`
+- **Tipo**: `string`
+- **Descrição**: Define um IP público fixo para a instância. Precisa existir a reserva de IP estático no GCP.
+- **Padrão**: `""`
 
 ### `tags_rede`
 - **Tipo**: `list(string)`
 - **Descrição**: Lista de regras de firewall.
-- **Opcional**
-- **Padrão**: Em branco
+- **Padrão**: `[]`
 
 ### `disco_adicional`
 - **Tipo**: `map(object({ tamanho = number, tipo = string }))`
 - **Descrição**: Lista de discos adicionais. Variáveis do objeto: 'tamanho' em GB do disco adicional e 'tipo' do disco adicional. A chave de cada objeto será o sufixo do nome do disco. Não é permitido usar a chave 'boot-disk'.
-- **Opcional**
-- **Padrão**: Em branco
+- **Padrão**: `{}`
 - **Validação**: A chave 'boot-disk' não é permitida.
 
 ## Variáveis de Saída
@@ -104,55 +116,7 @@
 - **Descrição**: ID da instância.
 - **Valor**: O ID da instância criada.
 
-### `imagem_linux`
-- **Descrição**: Indica se a imagem é Linux.
-- **Valor**: `true` se a imagem for Linux, `false` caso contrário.
+### `instancia_imagem`
+- **Descrição**: Nome da imagem que foi utilizada na criação da instância.
+- **Valor**: Nome da imagem que foi utilizada na criação da instância.
 
-### `imagem_windows`
-- **Descrição**: Indica se a imagem é Windows.
-- **Valor**: `true` se a imagem for Windows, `false` caso contrário.
-
-## Exemplo de Uso
-
-```hcl
-module "gcp_instance" {
-  source = "github.com/EscolaDevOps/terraform-modules//gcp/instancia-vm"
-
-  projeto              = "meu-projeto"
-  regiao               = "us-central1"
-  zona                 = "us-central1-a"
-  nome_vm              = "minha-instancia"
-  tipo_vm              = "n1-standard-1"
-  imagem               = "debian-9"
-  tamanho_disco_boot   = 100
-  tipo_disco_boot      = "pd-standard"
-  script_boot          = "path/to/script.sh"
-  script_sysprep       = "path/to/sysprep.ps1"
-  rede                 = "default"
-  subrede              = "default"
-  ip_publico           = true
-  tags_rede            = ["tag1", "tag2"]
-  disco_adicional      = {
-    "extra-disk-1" = {
-      tamanho = 50
-      tipo    = "pd-standard"
-    }
-    "extra-disk-2" = {
-      tamanho = 100
-      tipo    = "pd-ssd"
-    }
-  }
-}
-
-output "ip_privado" {
-  value = module.gcp_instance.instancia_ip_privado
-}
-
-output "ip_publico" {
-  value = module.gcp_instance.instancia_ip_publico
-}
-
-output "id_instancia" {
-  value = module.gcp_instance.instancia_id
-}
-```

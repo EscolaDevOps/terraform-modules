@@ -9,16 +9,11 @@ output "instancia_ip_publico" {
 }
 
 output "instancia_id" {
-  value = google_compute_instance.instancia.id
+  value       = google_compute_instance.instancia.id
   description = "ID da instancia"
 }
 
-output "imagem_linux" {
-  value       = local.is_linux
-  description = "Indica se a imagem é Linux"
-}
-
-output "imagem_windows" {
-  value       = local.is_windows
-  description = "Indica se a imagem é Windows"
+output "instancia_imagem" {
+  value       = google_compute_disk.disco-boot.image
+  description = "Nome da imagem que foi utilizada na criação da instância"
 }

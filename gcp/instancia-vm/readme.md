@@ -38,7 +38,7 @@
 
 ### `sistema_operacional_projeto`
 - **Tipo**: `string`
-- **Descrição**: Nome do projeto GCP do sistema operacional. Opcional se for informada uma imagem ou for da família 'windows', 'ubuntu', 'centos', 'rhel', 'debian', 'rocky', 'suse' ou 'sles'.
+- **Descrição**: Nome do projeto GCP do sistema operacional. Opcional se for informada uma imagem ou for da família `windows`, `ubuntu`, `centos`, `rhel`, `debian`, `rocky`, `suse` ou `sles`.
 - **Padrão**: `""`
 
 ### `sistema_operacional_imagem`

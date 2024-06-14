@@ -5,8 +5,8 @@ module "minhavm" {
   regiao = "us-east1"
   zona = "us-east1-b"
 
-  nome_vm = "teste-modulo"
-  tipo_vm = "e2-standard-2"
+  vm_nome = "teste-modulo"
+  vm_tipo = "e2-standard-2"
   sistema_operacional = "windows-2016"
   tamanho_disco_boot = 110
   tipo_disco_boot = "pd-ssd"

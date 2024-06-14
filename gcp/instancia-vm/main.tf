@@ -5,7 +5,7 @@ provider "google" {
 }
 
 resource "google_compute_disk" "disco-boot" {
-  name = "${var.nome_vm}-boot-disk"
+  name = "${var.vm_nome}-boot-disk"
   size = var.tamanho_disco_boot
   type = var.tipo_disco_boot
   image = coalesce(var.sistema_operacional_imagem, 
@@ -28,14 +28,14 @@ resource "google_compute_disk" "disco-boot" {
 
 resource "google_compute_disk" "disco-adicional" {
   for_each = var.disco_adicional
-  name     = "${var.nome_vm}-${each.key}"
+  name     = "${var.vm_nome}-${each.key}"
   size     = each.value.tamanho
   type     = each.value.tipo
 }
 
 resource "google_compute_instance" "instancia" {
-  name         = var.nome_vm
-  machine_type = var.tipo_vm
+  name         = var.vm_nome
+  machine_type = var.vm_tipo
 
   boot_disk {
     source = google_compute_disk.disco-boot.id

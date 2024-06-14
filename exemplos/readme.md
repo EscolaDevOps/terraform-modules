@@ -17,7 +17,7 @@ module "gcp_instance" {
   nome_vm                    = "minha-instancia"
   tipo_vm                    = "n1-standard-1"
   sistema_operacional        = "ubuntu-2404-lts-amd64"
-  sistema_operacional_projeto= "ubuntu-os-cloud"
+  sistema_operacional_projeto= ""
   sistema_operacional_imagem = ""
   tamanho_disco_boot         = 100
   tipo_disco_boot            = "pd-standard"

@@ -25,7 +25,7 @@
 | `ip_publico` | Indica se a instância terá um IP público. | `bool` | `false` | Nenhuma. |
 | `ip_publico_fixo` | Define um IP público fixo para a instância. Precisa existir a reserva de IP estático no GCP. | `string` | `""` | Nenhuma. |
 | `tags_rede` | Lista de regras de firewall. | `list(string)` | `[]` | Nenhuma. |
-| `disco_adicional` | Lista de discos adicionais. Variáveis do objeto: `tamanho` em GB do disco adicional e `tipo` do disco adicional. A chave de cada objeto será o sufixo do nome do disco. | `map(object({ tamanho = number, tipo = string }))` | `{}` | A chave 'boot-disk' não é permitida. |
+| `disco_adicional` | Lista de discos adicionais. Variáveis do objeto: `tamanho` em GB do disco adicional e `tipo` do disco adicional. A chave de cada objeto será o sufixo do nome do disco. | <pre>map(object({<br>  tamanho = number,<br>  tipo = string<br>}))<pre> | `{}` | A chave `boot-disk` não é permitida. |
 
 
 ## Variáveis de Saída

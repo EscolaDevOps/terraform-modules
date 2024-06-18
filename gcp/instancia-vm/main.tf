@@ -61,11 +61,11 @@ resource "google_compute_instance" "instancia" {
     }
   }
 
-  metadata_startup_script = !local.so_windows && !local.so_desconhecido && length(trimspace(var.script_boot)) > 0 ? file("${path.root}/${var.script_boot}") : null
+  metadata_startup_script = !local.so_windows && !local.so_desconhecido && length(trimspace(var.script_boot)) > 0 ? sensitive(file("${path.root}/${var.script_boot}")) : null
 
   metadata = {
-    windows-startup-script-ps1    = local.so_windows && length(trimspace(var.script_boot)) > 0 ? file("${path.root}/${var.script_boot}") : null
-    sysprep-specialize-script-ps1 = local.so_windows && length(trimspace(var.script_sysprep)) > 0 ? file("${path.root}/${var.script_sysprep}") : null
+    windows-startup-script-ps1    = local.so_windows && length(trimspace(var.script_boot)) > 0 ? sensitive(file("${path.root}/${var.script_boot}")) : null
+    sysprep-specialize-script-ps1 = local.so_windows && length(trimspace(var.script_sysprep)) > 0 ? sensitive(file("${path.root}/${var.script_sysprep}")) : null
   }
 
   tags = var.tags_rede

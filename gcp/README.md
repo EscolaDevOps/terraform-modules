@@ -6,6 +6,6 @@
 
 ### vpc-rede
 - Este módulo cria redes VPC Google Cloud Platform (GCP) utilizando Terraform, implementa diversos recursos de redes e fornece várias saídas úteis.
-- É possível gerenciar subredes, rotas e regras de firewall.
+- É possível gerenciar subredes, rotas, regras de firewall e peering (ligação) entre redes VPC.
 
 Uma lista de templates com exemplos de implementação estão disponíveis na [pasta de exemplos](https://github.com/EscolaDevOps/terraform-modules/tree/main/exemplos).

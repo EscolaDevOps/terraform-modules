@@ -8,7 +8,7 @@ resource "google_compute_disk" "disco-boot" {
   name = "${var.vm_nome}-boot-disk"
   size = var.tamanho_disco_boot
   type = var.tipo_disco_boot
-  image = coalesce(var.sistema_operacional_imagem, 
+  image = coalesce(var.sistema_operacional_imagem,
     join("", data.google_compute_image.imagem_recente_custom[*].self_link),
     join("", data.google_compute_image.imagem_recente_windows[*].self_link),
     join("", data.google_compute_image.imagem_recente_ubuntu[*].self_link),
@@ -16,7 +16,7 @@ resource "google_compute_disk" "disco-boot" {
     join("", data.google_compute_image.imagem_recente_rhel[*].self_link),
     join("", data.google_compute_image.imagem_recente_debian[*].self_link),
     join("", data.google_compute_image.imagem_recente_rocky[*].self_link),
-    join("", data.google_compute_image.imagem_recente_suse[*].self_link))
+  join("", data.google_compute_image.imagem_recente_suse[*].self_link))
 
   lifecycle {
     ignore_changes = [

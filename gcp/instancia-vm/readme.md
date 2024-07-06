@@ -42,7 +42,7 @@
 
 ```hcl
 module "gcp_instance" {
-  source = "github.com/EscolaDevOps/terraform-modules//gcp/instancia-vm"
+  source = "github.com/EscolaDevOps/terraform-modules//gcp/instancia-vm?ref=v0.0.1"
 
   projeto                    = "meu-projeto"
   regiao                     = "us-central1"

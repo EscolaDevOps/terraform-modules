@@ -1,3 +1,7 @@
+# Módulos para terraform
+
+Este repositório contém um módulo Terraform para criar e gerenciar instâncias de máquinas virtuais (VMs), redes e sub-redes no Google Cloud Platform (GCP). Ele também inclui a configuração de regras de firewall.
+
 # Lista de módulos disponíveis
 
 ## gcp

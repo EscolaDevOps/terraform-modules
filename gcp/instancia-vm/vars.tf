@@ -25,21 +25,21 @@ variable "zona" {
   }
 }
 
-variable "nome_vm" {
+variable "vm_nome" {
   type        = string
   description = "Nome da instância/VM."
   validation {
-    condition     = length(trimspace(var.nome_vm)) > 0
-    error_message = "A variável 'nome_vm' não pode ser vazia. Forneça um nome de instância/VM válido."
+    condition     = length(trimspace(var.vm_nome)) > 0
+    error_message = "A variável 'vm_nome' não pode ser vazia. Forneça um nome de instância/VM válido."
   }
 }
 
-variable "tipo_vm" {
+variable "vm_tipo" {
   type        = string
   description = "Tipo de instância a ser aplicada."
   validation {
-    condition     = length(trimspace(var.tipo_vm)) > 0
-    error_message = "A variável 'tipo_vm' não pode ser vazia. Forneça um tipo de instância/VM válido."
+    condition     = length(trimspace(var.vm_tipo)) > 0
+    error_message = "A variável 'vm_tipo' não pode ser vazia. Forneça um tipo de instância/VM válido."
   }
 }
 

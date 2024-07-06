@@ -1,13 +1,10 @@
 # Lista de módulos disponíveis
 
-## gcp
-- Grupo de módulos para uso no Google Cloud Platform (GCP).
-
-### gcp/instancia-vm
+### instancia-vm
 - Este módulo cria instâncias de Virtual Machine (VM) no Google Cloud Platform (GCP) utilizando Terraform e fornece várias saídas úteis.
-- É possível adicionar discos adicionais, script de inicialização (sysprep) e script de boot.
+- É possível adicionar discos adicionais, script de inicialização (sysprep) para sistemas Windows e script de boot.
 
-### gcp/vpc-rede
+### vpc-rede
 - Este módulo cria redes VPC Google Cloud Platform (GCP) utilizando Terraform, implementa diversos recursos de redes e fornece várias saídas úteis.
 - É possível gerenciar subredes e regras de firewall.
 

@@ -5,10 +5,10 @@ provider "google" {
 }
 
 resource "google_compute_disk" "disco-boot" {
-  name = "${var.nome_vm}-boot-disk"
+  name = "${var.vm_nome}-boot-disk"
   size = var.tamanho_disco_boot
   type = var.tipo_disco_boot
-  image = coalesce(var.sistema_operacional_imagem, 
+  image = coalesce(var.sistema_operacional_imagem,
     join("", data.google_compute_image.imagem_recente_custom[*].self_link),
     join("", data.google_compute_image.imagem_recente_windows[*].self_link),
     join("", data.google_compute_image.imagem_recente_ubuntu[*].self_link),
@@ -16,7 +16,7 @@ resource "google_compute_disk" "disco-boot" {
     join("", data.google_compute_image.imagem_recente_rhel[*].self_link),
     join("", data.google_compute_image.imagem_recente_debian[*].self_link),
     join("", data.google_compute_image.imagem_recente_rocky[*].self_link),
-    join("", data.google_compute_image.imagem_recente_suse[*].self_link))
+  join("", data.google_compute_image.imagem_recente_suse[*].self_link))
 
   lifecycle {
     ignore_changes = [
@@ -28,14 +28,14 @@ resource "google_compute_disk" "disco-boot" {
 
 resource "google_compute_disk" "disco-adicional" {
   for_each = var.disco_adicional
-  name     = "${var.nome_vm}-${each.key}"
+  name     = "${var.vm_nome}-${each.key}"
   size     = each.value.tamanho
   type     = each.value.tipo
 }
 
 resource "google_compute_instance" "instancia" {
-  name         = var.nome_vm
-  machine_type = var.tipo_vm
+  name         = var.vm_nome
+  machine_type = var.vm_tipo
 
   boot_disk {
     source = google_compute_disk.disco-boot.id
@@ -61,11 +61,11 @@ resource "google_compute_instance" "instancia" {
     }
   }
 
-  metadata_startup_script = !local.so_windows && !local.so_desconhecido && length(trimspace(var.script_boot)) > 0 ? file("${path.root}/${var.script_boot}") : null
+  metadata_startup_script = !local.so_windows && !local.so_desconhecido && length(trimspace(var.script_boot)) > 0 ? sensitive(file("${path.root}/${var.script_boot}")) : null
 
   metadata = {
-    windows-startup-script-ps1    = local.so_windows && length(trimspace(var.script_boot)) > 0 ? file("${path.root}/${var.script_boot}") : null
-    sysprep-specialize-script-ps1 = local.so_windows && length(trimspace(var.script_sysprep)) > 0 ? file("${path.root}/${var.script_sysprep}") : null
+    windows-startup-script-ps1    = local.so_windows && length(trimspace(var.script_boot)) > 0 ? sensitive(file("${path.root}/${var.script_boot}")) : null
+    sysprep-specialize-script-ps1 = local.so_windows && length(trimspace(var.script_sysprep)) > 0 ? sensitive(file("${path.root}/${var.script_sysprep}")) : null
   }
 
   tags = var.tags_rede
